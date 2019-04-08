@@ -19,5 +19,8 @@
   "private": true,
   "dependencies": {
     "jimp": "^0.6.1"
+  },
+  "devDependencies": {
+    "fs-extra": "^7.0.1"
   }
 }
