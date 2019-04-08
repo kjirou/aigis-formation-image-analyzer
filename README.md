@@ -1,2 +1,2 @@
-# aigis-formation-image-analysis
+# aigis-formation-image-analyzer
 ATODE
