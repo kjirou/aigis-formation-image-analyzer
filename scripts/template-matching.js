@@ -64,4 +64,16 @@ Promise.resolve()
   .then(() => {
     return Promise.all(conversions.map(([from, to]) => convertPngToGrayscale(from, to)));
   })
+  .then(() => {
+    return jimp.read(path.join(TMP_BUILT_IMAGES_TEMPLATES_ROOT, 'tenma.png'))
+      .then(image => {
+        console.log(image.bitmap.width);
+        console.log(image.bitmap.height);
+        // RGBA で 1 ピクセル(画素)辺り 4 バイト割り当てられている
+        // 実際はグレースケールしたので、[x, x, x, 255] になっていて x は同じ値
+        const bitmapArray = Array.prototype.slice.call(image.bitmap.data);
+        console.log(bitmapArray.length);
+      })
+    ;
+  })
 ;
