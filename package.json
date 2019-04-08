@@ -15,5 +15,6 @@
   "bugs": {
     "url": "https://github.com/kjirou/aigis-formation-image-analyzer/issues"
   },
-  "homepage": "https://github.com/kjirou/aigis-formation-image-analyzer#readme"
+  "homepage": "https://github.com/kjirou/aigis-formation-image-analyzer#readme",
+  "private": true
 }
