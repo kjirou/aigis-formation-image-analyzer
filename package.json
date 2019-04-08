@@ -1,0 +1,19 @@
+{
+  "name": "aigis-formation-image-analyzer",
+  "version": "0.0.0",
+  "description": "ATODE",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kjirou/aigis-formation-image-analyzer.git"
+  },
+  "author": "kjirou",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kjirou/aigis-formation-image-analyzer/issues"
+  },
+  "homepage": "https://github.com/kjirou/aigis-formation-image-analyzer#readme"
+}
