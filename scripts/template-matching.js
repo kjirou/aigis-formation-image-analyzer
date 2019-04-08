@@ -19,10 +19,33 @@ function convertPngToGrayscale(fromFilePath, toFilePath) {
     })
     .then(image => {
       return image
+        .resize(Math.ceil(image.bitmap.width / 2), jimp.AUTO)
         .greyscale()
         .write(toFilePath);
     })
   ;
+}
+
+function bitmapDataToMatrix(jimpImage) {
+  const {width, height, data} = jimpImage;
+  const matrix = [];
+  for (let y = 0; y < height; y++) {
+    const row = [];
+    for (let x = 0; x < width; x++) {
+      row.push(data[y * width * 4 + x * 4]);
+    }
+    matrix.push(row);
+  }
+  return matrix;
+}
+
+/**
+ * SAD (Sum of Absolute Differences)
+ * https://en.wikipedia.org/wiki/Sum_of_absolute_differences
+ * @param templateImageData {width, height, pixels}
+ * @param searchImageData {width, height, pixels}
+ */
+function searchBySad(templateImageData, searchImageData) {
 }
 
 const conversions = [
@@ -67,12 +90,15 @@ Promise.resolve()
   .then(() => {
     return jimp.read(path.join(TMP_BUILT_IMAGES_TEMPLATES_ROOT, 'tenma.png'))
       .then(image => {
-        console.log(image.bitmap.width);
-        console.log(image.bitmap.height);
         // RGBA で 1 ピクセル(画素)辺り 4 バイト割り当てられている
         // 実際はグレースケールしたので、[x, x, x, 255] になっていて x は同じ値
-        const bitmapArray = Array.prototype.slice.call(image.bitmap.data);
-        console.log(bitmapArray.length);
+        console.log(image.bitmap.width);
+        console.log(image.bitmap.height);
+        console.log(image.bitmap.data.length);
+        const matrix = bitmapDataToMatrix(image.bitmap);
+        console.log(matrix.length);
+        console.log(matrix[0].length);
+        console.log(matrix[matrix.length - 1].length);
       })
     ;
   })
