@@ -114,8 +114,8 @@ const images = [
     path.join(TMP_BUILT_IMAGES_TEMPLATES_ROOT, 'mikoto.png'),
   ],
   [
-    path.join(SAMPLE_DATA_TEMPLATE_IMAGES_ROOT, 'ramy.png'),
-    path.join(TMP_BUILT_IMAGES_TEMPLATES_ROOT, 'ramy.png'),
+    path.join(SAMPLE_DATA_TEMPLATE_IMAGES_ROOT, 'remy.png'),
+    path.join(TMP_BUILT_IMAGES_TEMPLATES_ROOT, 'remy.png'),
   ],
   [
     path.join(SAMPLE_DATA_TEMPLATE_IMAGES_ROOT, 'tenma.png'),
