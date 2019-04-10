@@ -71,8 +71,8 @@ function searchBySad(subjectMatrix, templateMatrix) {
   const subjectWidth = subjectMatrix[0].length - 1;
   const templateHeight = templateMatrix.length - 1;
   const templateWidth = templateMatrix[0].length - 1;
-  const maxSubjectY = subjectHeight - templateHeight - 1;
-  const maxSubjectX = subjectWidth - templateWidth - 1;
+  const maxSubjectY = subjectHeight - templateHeight;
+  const maxSubjectX = subjectWidth - templateWidth;
   const maxTemplateY = templateHeight - 1;
   const maxTemplateX = templateWidth - 1;
 
@@ -86,7 +86,11 @@ function searchBySad(subjectMatrix, templateMatrix) {
       let score = 0;
       for (let ty = 0; ty <= maxTemplateY; ty++) {
         for (let tx = 0; tx <= maxTemplateX; tx++) {
-          score += Math.abs(subjectMatrix[sy][sx] - templateMatrix[ty][tx]);
+          delta = Math.abs(subjectMatrix[sy + ty][sx + tx] - templateMatrix[ty][tx]);
+          // SAD
+          score += delta;
+          // SSD
+          //score += delta * delta;
         }
       }
       if (candidate.score === -1 || score < candidate.score) {
@@ -100,7 +104,7 @@ function searchBySad(subjectMatrix, templateMatrix) {
   return candidate;
 }
 
-const conversions = [
+const images = [
   [
     path.join(SAMPLE_DATA_FORMATION_IMAGES_ROOT, 'formation-1--cropped.png'),
     path.join(TMP_BUILT_IMAGES_ROOT, 'formation-1--cropped.png'),
@@ -141,10 +145,10 @@ let searchedSubjectPixel;
 
 Promise.resolve()
   .then(() => {
-    return Promise.all(conversions.map(([from, to]) => convertPngToGrayscale(from, to)));
+    return Promise.all(images.map(([from, to]) => convertPngToGrayscale(from, to)));
   })
   .then(() => {
-    return jimp.read(path.join(TMP_BUILT_IMAGES_ROOT, 'formation-1--cropped.png'))
+    return jimp.read(images[0][1])
       .then(image => {
         console.log('Image =', image.bitmap.width, image.bitmap.height, image.bitmap.data.length);
         subjectImageMatrix = jimpImageToMatrix(image);
@@ -152,7 +156,7 @@ Promise.resolve()
     ;
   })
   .then(() => {
-    return jimp.read(path.join(TMP_BUILT_IMAGES_TEMPLATES_ROOT, 'tenma.png'))
+    return jimp.read(images[5][1])
       .then(image => {
         // RGBA で 1 ピクセル(画素)辺り 4 バイト割り当てられている
         // 実際はグレースケールしたので、[x, x, x, 255] になっていて x は同じ値
