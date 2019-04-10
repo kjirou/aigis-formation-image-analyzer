@@ -26,18 +26,6 @@ function convertPngToGrayscale(fromFilePath, toFilePath) {
   ;
 }
 
-//function bitmapDataToMatrix(jimpImage) {
-//  const {width, height, data} = jimpImage;
-//  const matrix = [];
-//  for (let y = 0; y < height; y++) {
-//    const row = [];
-//    for (let x = 0; x < width; x++) {
-//      row.push(data[y * width * 4 + x * 4]);
-//    }
-//    matrix.push(row);
-//  }
-//  return matrix;
-//}
 function jimpImageToMatrix(jimpImage) {
   const matrix = [];
   let currentY = -1;
@@ -110,6 +98,10 @@ const images = [
     path.join(TMP_BUILT_IMAGES_ROOT, 'formation-1--cropped.png'),
   ],
   [
+    path.join(SAMPLE_DATA_TEMPLATE_IMAGES_ROOT, 'cost.png'),
+    path.join(TMP_BUILT_IMAGES_TEMPLATES_ROOT, 'cost.png'),
+  ],
+  [
     path.join(SAMPLE_DATA_TEMPLATE_IMAGES_ROOT, 'dina.png'),
     path.join(TMP_BUILT_IMAGES_TEMPLATES_ROOT, 'dina.png'),
   ],
@@ -156,7 +148,7 @@ Promise.resolve()
     ;
   })
   .then(() => {
-    return jimp.read(images[5][1])
+    return jimp.read(images[1][1])
       .then(image => {
         // RGBA で 1 ピクセル(画素)辺り 4 バイト割り当てられている
         // 実際はグレースケールしたので、[x, x, x, 255] になっていて x は同じ値
