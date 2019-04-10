@@ -54,7 +54,7 @@ function jimpImageToMatrix(jimpImage) {
  * @param subjectMatrix darkness[][]
  * @param templateMatrix darkness[][]
  */
-function searchBySad(subjectMatrix, templateMatrix) {
+function searchBySad(subjectMatrix, templateMatrix, requestCount) {
   const subjectHeight = subjectMatrix.length - 1;
   const subjectWidth = subjectMatrix[0].length - 1;
   const templateHeight = templateMatrix.length - 1;
@@ -64,11 +64,9 @@ function searchBySad(subjectMatrix, templateMatrix) {
   const maxTemplateY = templateHeight - 1;
   const maxTemplateX = templateWidth - 1;
 
-  const candidate = {
-    y: -1,
-    x: -1,
-    score: -1,
-  };
+  // score 昇順に並べられている前提
+  const results = [];
+
   for (let sy = 0; sy <= maxSubjectY; sy++) {
     for (let sx = 0; sx <= maxSubjectX; sx++) {
       let score = 0;
@@ -81,15 +79,26 @@ function searchBySad(subjectMatrix, templateMatrix) {
           //score += delta * delta;
         }
       }
-      if (candidate.score === -1 || score < candidate.score) {
-        candidate.y = sy;
-        candidate.x = sx;
-        candidate.score = score;
+      if (results.length < requestCount) {
+        results.push({
+          y: sy,
+          x: sx,
+          score,
+        });
+        results.sort((a, b) => a.score - b.score);
+      } else if (score < results[results.length - 1].score) {
+        results.pop();
+        results.push({
+          y: sy,
+          x: sx,
+          score,
+        });
+        results.sort((a, b) => a.score - b.score);
       }
     }
   }
 
-  return candidate;
+  return results;
 }
 
 const images = [
@@ -133,7 +142,6 @@ fs.ensureDirSync(TMP_BUILT_IMAGES_TEMPLATES_ROOT);
 
 let subjectImageMatrix;
 let templateImageMatrix;
-let searchedSubjectPixel;
 
 Promise.resolve()
   .then(() => {
@@ -158,7 +166,7 @@ Promise.resolve()
     ;
   })
   .then(() => {
-    searchedSubjectPixel = searchBySad(subjectImageMatrix, templateImageMatrix);
-    console.log(searchedSubjectPixel);
+    const searchResults = searchBySad(subjectImageMatrix, templateImageMatrix, 20);
+    console.log(searchResults);
   })
 ;
