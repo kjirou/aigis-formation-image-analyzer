@@ -16,5 +16,11 @@
     "url": "https://github.com/kjirou/aigis-formation-image-analyzer/issues"
   },
   "homepage": "https://github.com/kjirou/aigis-formation-image-analyzer#readme",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "jimp": "^0.6.1"
+  },
+  "devDependencies": {
+    "fs-extra": "^7.0.1"
+  }
 }
